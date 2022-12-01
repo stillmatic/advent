@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/stillmatic/advent/2022/ds"
 	"github.com/stillmatic/advent/2022/util"
 )
 
@@ -51,11 +52,12 @@ func part1(input string) int {
 
 func part2(input string) int {
 	parsed := parseInput(input)
-	// add parsed to heap and select top 3 from heap
+	hp := ds.NewHeap(func(a int, b int) bool { return a < b })
+	for _, a := range parsed {
+		hp.Push(-a) // minheap
+	}
 
-	fmt.Println(parsed[len(parsed)-3:])
-
-	return parsed[0] + parsed[1] + parsed[2]
+	return -1 * (hp.Pop() + hp.Pop() + hp.Pop())
 }
 
 func parseInput(input string) (ans []int) {
